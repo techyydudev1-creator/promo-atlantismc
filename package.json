@@ -6,7 +6,11 @@
     "start": "node main.js"
   },
   "dependencies": {
-    "mineflayer": "^5.0.0",
-    "axios": "^1.6.0"
+    "mineflayer": "4.21.0",  // Downgraded to v4 (Node.js 18 compatible)
+    "axios": "^1.6.0",
+    "prismarine-realms": "^0.1.18"  // Required for Mineflayer v4
+  },
+  "engines": {
+    "node": "18.x"  // Force Node.js 18
   }
 }
