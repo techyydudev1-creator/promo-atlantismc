@@ -1,16 +1,12 @@
 {
-  "name": "dan-spammer",
+  "name": "minecraft-spammer",
   "version": "1.0",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node main.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "mineflayer": "4.21.0",
-    "axios": "^1.6.0",
-    "prismarine-realms": "^0.1.18"
-  },
-  "engines": {
-    "node": "18.18.2"
+    "axios": "^1.6.0"
   }
 }
