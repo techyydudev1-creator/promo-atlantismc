@@ -5,11 +5,8 @@
   "scripts": {
     "start": "node index.js"
   },
-  "engines": {
-    "node": "16.20.2"
-  },
   "dependencies": {
-    "mineflayer": "4.21.0",
-    "axios": "^1.6.0"
+    "mineflayer": "3.11.0",
+    "prismarine-realms": "^0.1.18"
   }
 }
