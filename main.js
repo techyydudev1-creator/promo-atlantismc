@@ -60,5 +60,10 @@ async function runSpamBot() {
   }
 }
 
+bot.on('error', (err) => {
+  console.log(`[DAN] Error on ${server.ip}: ${err.message}`);
+  bot.end(); // Clean exit
+});
+
 // --- START BOT (INFINITE LOOP) ---
 runSpamBot();
