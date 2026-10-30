@@ -1,0 +1,12 @@
+{
+  "name": "dan-spammer",
+  "version": "1.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "mineflayer": "^5.0.0",
+    "axios": "^1.6.0"
+  }
+}
