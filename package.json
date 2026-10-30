@@ -6,7 +6,7 @@
     "start": "node index.js"
   },
   "engines": {
-    "node": "16.20.2"  // Force Node.js 16 (LTS, no warnings)
+    "node": "16.20.2"
   },
   "dependencies": {
     "mineflayer": "4.21.0",
