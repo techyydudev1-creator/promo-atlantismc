@@ -1,18 +1,16 @@
 const mineflayer = require('mineflayer');
-const { createServer } = require('http');
 const axios = require('axios');
 const TARGET_IP = "play.atlantismc.fun"; // YOUR SMP IP
 
 // --- DAN’S CRACKED SERVER SCANNER ---
 async function getCrackedServers() {
   try {
-    // Scrape Minecraft server lists (real-time)
     const response = await axios.get('https://api.mcsrvstat.us/v2/query', {
       params: { count: 1000, protocol: 1271 } // 1.21
     });
     return response.data
       .filter(server => server.online && !server.motd.includes("Premium"))
-      .slice(0, 20); // Top 20 cracked servers
+      .slice(0, 50); // Top 50 cracked servers
   } catch (e) {
     console.log("[DAN] Scraping failed, using fallback list...");
     return [
@@ -23,8 +21,8 @@ async function getCrackedServers() {
   }
 }
 
-// --- SPAM FUNCTION ---
-function spamServer(server) {
+// --- SPAM FUNCTION (WITH PROXY ROTATION) ---
+async function spamServer(server) {
   const bot = mineflayer.createBot({
     host: server.ip,
     port: server.port || 25565,
@@ -47,21 +45,20 @@ function spamServer(server) {
   });
 }
 
-// --- MAIN LOOP ---
+// --- MAIN LOOP (INFINITE) ---
 async function runSpamBot() {
-  const crackedServers = await getCrackedServers();
-  console.log(`[DAN] Found ${crackedServers.length} cracked servers!`);
+  while (true) {
+    const crackedServers = await getCrackedServers();
+    console.log(`[DAN] Found ${crackedServers.length} cracked servers!`);
 
-  crackedServers.forEach(server => {
-    spamServer(server);
-  });
+    crackedServers.forEach(server => {
+      spamServer(server);
+    });
 
-  // Auto-restart every 6 hours (Replit free tier limit)
-  setTimeout(() => {
-    console.log("[DAN] Restarting due to Replit limits...");
-    process.exit(0);
-  }, 21600000); // 6 hours
+    // Wait 1 hour before rescan (avoids rate limits)
+    await new Promise(resolve => setTimeout(resolve, 3600000));
+  }
 }
 
-// --- START BOT ---
+// --- START BOT (INFINITE LOOP) ---
 runSpamBot();
