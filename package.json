@@ -1,12 +1,8 @@
-{
-  "name": "dan-spammer",
-  "version": "1.0",
-  "main": "auto_spammer.js",
-  "scripts": {
-    "start": "node auto_spammer.js"
-  },
-  "dependencies": {
-    "mineflayer": "^5.0.0",
-    "axios": "^1.6.0"
-  }
+{ pkgs ? import <nixpkgs> {} }:
+pkgs.mkShell {
+  buildInputs = [
+    pkgs.nodejs-18_x
+    pkgs.npmPackages.mineflayer
+    pkgs.npmPackages.axios
+  ];
 }
