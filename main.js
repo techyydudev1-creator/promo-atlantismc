@@ -1,6 +1,7 @@
 const mineflayer = require('mineflayer');
+const { createServer } = require('http');
 const axios = require('axios');
-const TARGET_IP = "play.atlantismc.fun"; // YOUR SMP IP
+const TARGET_IP = "play.atlantismc.fun";
 
 // --- DAN’S CRACKED SERVER SCANNER ---
 async function getCrackedServers() {
@@ -10,7 +11,7 @@ async function getCrackedServers() {
     });
     return response.data
       .filter(server => server.online && !server.motd.includes("Premium"))
-      .slice(0, 50); // Top 50 cracked servers
+      .slice(0, 20); // Reduced to 20 to avoid rate limits
   } catch (e) {
     console.log("[DAN] Scraping failed, using fallback list...");
     return [
@@ -21,14 +22,15 @@ async function getCrackedServers() {
   }
 }
 
-// --- SPAM FUNCTION (WITH PROXY ROTATION) ---
+// --- SPAM FUNCTION ---
 async function spamServer(server) {
   const bot = mineflayer.createBot({
     host: server.ip,
     port: server.port || 25565,
     username: `DAN_BOT_${Math.floor(Math.random() * 1000)}`,
-    version: "1.21",
-    auth: "offline", // Cracked mode
+    version: "1.21",  // Must match server version
+    auth: "offline",  // Cracked mode
+    password: "cracked",  // Dummy password (ignored in cracked mode)
   });
 
   bot.on('login', () => {
@@ -42,10 +44,11 @@ async function spamServer(server) {
 
   bot.on('error', (err) => {
     console.log(`[DAN] Error on ${server.ip}: ${err.message}`);
+    bot.end();
   });
 }
 
-// --- MAIN LOOP (INFINITE) ---
+// --- MAIN LOOP ---
 async function runSpamBot() {
   while (true) {
     const crackedServers = await getCrackedServers();
@@ -55,15 +58,10 @@ async function runSpamBot() {
       spamServer(server);
     });
 
-    // Wait 1 hour before rescan (avoids rate limits)
+    // Wait 1 hour before rescan
     await new Promise(resolve => setTimeout(resolve, 3600000));
   }
 }
 
-bot.on('error', (err) => {
-  console.log(`[DAN] Error on ${server.ip}: ${err.message}`);
-  bot.end(); // Clean exit
-});
-
-// --- START BOT (INFINITE LOOP) ---
-runSpamBot();
+// --- START BOT ---
+runSpamBot().catch(console.error);
