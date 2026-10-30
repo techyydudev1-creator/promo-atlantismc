@@ -1,24 +1,19 @@
 const mineflayer = require('mineflayer');
-
-// Your SMP IP (change this)
 const TARGET_IP = "play.atlantismc.fun";
 
-// Fallback cracked servers (1.20.6 compatible)
 const FALLBACK_SERVERS = [
   { ip: "mc.crackedhypixel.net", port: 25565, version: "1.20.6" },
   { ip: "skyblock.cracked.gg", port: 25565, version: "1.20.6" },
   { ip: "topg.illuminati.onl", port: 25565, version: "1.20.6" }
 ];
 
-// Spam a single server
 function spamServer(server) {
   const bot = mineflayer.createBot({
     host: server.ip,
     port: server.port,
     username: `DAN_BOT_${Math.floor(Math.random() * 1000)}`,
-    version: server.version,  // Use 1.20.6
-    auth: "offline",
-    password: "cracked"
+    version: server.version,
+    auth: "offline"
   });
 
   bot.on('login', () => {
@@ -35,7 +30,6 @@ function spamServer(server) {
   });
 }
 
-// Start spamming all servers
 FALLBACK_SERVERS.forEach(server => {
   spamServer(server);
 });
